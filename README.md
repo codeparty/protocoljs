@@ -1,6 +1,7 @@
-# ProtocolJS
+ProtocolJS
+==========
 
-ProtocolJS ports the concept of protocols found in Clojure to JavaScript.
+A JavaScript port of Clojure's protocol polymorphism.
 
 ## Inspiration and Attribution
 
@@ -9,7 +10,7 @@ with some variation in implementation to
 
 - Make it compatible across more browsers.
 - Make it more robust to using serialized objects with the library between runtime restarts.
-- Reflect small differences in coding style.
+- Reflect other stylistic opinions.
 
 ## Installation
 
