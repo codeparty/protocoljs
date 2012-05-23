@@ -25,6 +25,7 @@ A protocol is a set of function interfaces.
 ```javascript
 var protocol = require('protocoljs');
 
+// Here, we implement the functions' interfaces, not their implementations
 var Enumerable = protocol({
   first: [protocol] // Here protocol is a placeholder for the typed argument
 , rest: [protocol]
@@ -102,7 +103,7 @@ RightEnumerable.first('abc'); // => 'c'
 RightEnumerable.rest('abc'); // => 'ab'
 ```
 
-Finally, you can re-open protocols and extend their interfaces.
+Another cool feature is re-opening protocols to extend their interfaces.
 
 ```javascript
 protocol(Enumerable, {
@@ -123,6 +124,51 @@ Enumerable(String, {
 
 Enumerable.slice([1, 2, 3], 0, 2); => [1, 2]
 Enumerable.slice('abc', 0, 2); => 'ab'
+```
+
+But protocols can be associated with more than just built-in types such as
+Number, Array, String, and other native types. You can also implement a
+protocol for custom constructors that you create, as long as you assign a
+special `protocolId` that is unique across types.
+
+```javascript
+function OrderedSet (members) {
+  this.members = members || [];
+}
+
+OrderedSet.prototype.protocolId = 'Set';
+OrderedSet.prototype.add = function (member) {
+  var members = this.members;
+  for (var i = members.length; i--; ) {
+    if (members[i] === member) return false;
+  }
+  return members.push(member);
+};
+
+OrderedSet.prototype.remove = function (member) {
+  var members = this.members;
+  for (var i = members.length; i--; ) {
+    if (members[i] === member) {
+      members.splice(i, 1);
+      return true;
+    }
+  }
+  return false;
+};
+
+Enumerable(OrderedSet, {
+  first: function (set) {
+    return set.members[0];
+  }
+, rest: function (set) {
+    return new OrderedSet(set.members.slice(1));
+  }
+});
+
+var set = new OrderedSet([1, 2, 3]);
+
+Enumerable.first(set); // => 1
+Enumerable.rest(set); // => <OrderedSet [2, 3]>
 ```
 
 ### MIT License
