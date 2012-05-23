@@ -2,7 +2,7 @@
   "author": "Brian Noguchi <brian.noguchi@gmail.com>",
   "name": "protocoljs",
   "description": "Clojure-style protocols in JavaScript",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/codeparty/protocoljs",
   "repository": {
     "url": "git://github.com/codeparty/protocoljs.git"
